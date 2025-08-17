@@ -52,6 +52,43 @@ static int read_string(char *out)
     out[count] = '\0';
     return count > 0;
 }
+#include <ctype.h>
+
+double my_atof(const char *str)
+{
+    double result = 0.0;
+    double frac = 0.0;
+    int sign = 1;
+    int divisor = 1;
+
+    // ignorer les espaces
+    while (*str && isspace((unsigned char)*str))
+        str++;
+
+    // gérer le signe
+    if (*str == '-') { sign = -1; str++; }
+    else if (*str == '+') { str++; }
+
+    // partie entière
+    while (*str && isdigit((unsigned char)*str)) {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+
+    // partie fractionnaire
+    if (*str == '.') {
+        str++;
+        while (*str && isdigit((unsigned char)*str)) {
+            frac = frac * 10 + (*str - '0');
+            divisor *= 10;
+            str++;
+        }
+    }
+
+    result += frac / divisor;
+    return result * sign;
+}
+
 
 static int read_float(float *out)
 {

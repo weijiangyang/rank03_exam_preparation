@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdarg.h>
 
 int ft_putchar(char c)
 {
@@ -29,7 +30,7 @@ int	ft_putnbr(int n)
 		count += ft_putstr("-2147483648");
 		return (count);
 	}
-        if (n < 0)
+    if (n < 0)
 	{
 		n = -n;
 		count += ft_putchar('-');
@@ -94,7 +95,7 @@ int	ft_printf(const char *format, ...)
 			else if (*format == 'p')
 			{
 				count += ft_putstr("0x");
-				count += ft_puthex(va_arg(args, void *), 'x');
+				count += ft_puthex((unsigned long)va_arg(args, void *), 'x');
 			}
 			else if (*format == '%')
 				count += ft_putchar ('%');
@@ -113,13 +114,14 @@ int	ft_printf(const char *format, ...)
 int main(int ac, char **av)
 {
 	int	count;
+	int	nb;
+
+	nb = 255;
 	
 	count = 0;
-	if (ac == 2)
-	{
-		count += ft_puthex(atoi(av[1]), 'x');
-		printf ("%d\n", count);
-	}
+
+	ft_printf("%p\n", &nb);
+	printf("%p", &nb);
 	return (0);
 }
 
